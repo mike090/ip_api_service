@@ -1,6 +1,8 @@
 # IpApiService
 
-Ruby клинет для сервиса [![ip-api.com](https://ip-api.com/). Сервис позволяет получать данные геолокации по ip адресу.
+![logo](https://ip-api.com/docs/static/logo.png)
+
+Ruby клинет для сервиса [ip-api.com](https://ip-api.com/). Сервис позволяет получать данные геолокации по ip адресу.
 
 ## Установка
 
@@ -74,4 +76,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/ip_api_service.
+Bug reports and pull requests are welcome on GitHub at https://github.com/mike090/ip_api_service.
