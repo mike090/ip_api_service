@@ -63,8 +63,8 @@ module IpApiService
     newline: 'text/plain',
     php: 'text/php'
   }.freeze
-  private_constant :META_FIELDS, :AVAILABLE_LANGUAGES, :AVAILABLE_FORMATS, :DEFAULT_FIELDS, :SERVICE_FIELDS, 
-  :FIELD_TYPES, :IP_API_COMMAND_TEMPLATE, :USER_AGENT, :ACCEPT_MIME_TYPES
+  private_constant :META_FIELDS, :AVAILABLE_LANGUAGES, :AVAILABLE_FORMATS, :DEFAULT_FIELDS, :SERVICE_FIELDS,
+                   :FIELD_TYPES, :IP_API_COMMAND_TEMPLATE, :USER_AGENT, :ACCEPT_MIME_TYPES
 
   class ServiceAdapter
     def initialize
