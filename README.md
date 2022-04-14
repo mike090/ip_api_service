@@ -1,5 +1,10 @@
 # IpApiService
 
+### CI status:
+[![CI status](https://github.com/mike090/ip_api_service/actions/workflows/main.yml/badge.svg)](https://github.com/mike090/ip_api_service/actions)
+
+## Описание
+
 ![logo](https://ip-api.com/docs/static/logo.png)
 
 Ruby клинет для сервиса [ip-api.com](https://ip-api.com/). Сервис позволяет получать данные геолокации по ip адресу.

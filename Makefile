@@ -1,8 +1,10 @@
-test:
-	test -s solution
 install:
 	bundle install
-tdd:
+
+test:
 	rake test
+
+lint:
+	rubocop lib/	
 
 .PHONY: test
