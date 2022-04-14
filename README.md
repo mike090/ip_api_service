@@ -1,6 +1,6 @@
 # IpApiService
 
-[![CI status](https://github.com/mike090/ip_api_service/actions/workflows/main.yml/badge.svg)](https://github.com/mike090/ip_api_service/actions/workflows/main.yml)
+[![CI status](https://github.com/mike090/ip_api_service/workflows/CI/badge.svg)](https://github.com/mike090/ip_api_service/actions/workflows/main.yml)
 
 ## Описание
 
