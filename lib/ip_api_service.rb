@@ -1,23 +1,16 @@
 # frozen_string_literal: true
 
-require_relative './ip_api_service/ip_api_adapter'
+require_relative './ip_api_service/service_adapter'
 require 'resolv'
 
 module IpApiService
   extend self
 
-  AVAILABLE_LANGUAGES = %i[en de es pt-BR fr ja zh-CN ru].freeze
-
-  AVAILABLE_FORMATS = %i[ipMetaInfo json xml csv line php].freeze
-
-  DEFAULT_FIELDS = %i[country countryCode region regionName city zip lat lon timezone isp org as].freeze
-  private_constant :AVAILABLE_LANGUAGES, :AVAILABLE_FORMATS, :DEFAULT_FIELDS
-
   @default_language = :en
   @custom_default_fields = DEFAULT_FIELDS
-  @result_format = :ipMetaInfo
+  @result_format = :ip_meta_info
 
-  attr_reader :available_langviges, :available_formats, :default_language, :result_format
+  attr_reader :default_language, :result_format
 
   def available_fields
     META_FIELDS.keys
@@ -27,12 +20,16 @@ module IpApiService
     AVAILABLE_LANGUAGES
   end
 
+  def available_formats
+    AVAILABLE_FORMATS
+  end
+
   def default_language=(value)
     @default_language = AVAILABLE_LANGUAGES.include?(value) ? value : :en
   end
 
   def result_format=(value)
-    @result_format = AVAILABLE_FORMATS.include?(value) ? value : metaInfo
+    @result_format = AVAILABLE_FORMATS.include?(value) ? value : :ip_meta_info
   end
 
   def field_description(field)
@@ -62,6 +59,6 @@ module IpApiService
   private
 
   def adapter
-    @adapter ||= IpApiAdapter.new
+    @adapter ||= ServiceAdapter.new
   end
 end

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'ip_api_service/ip_api_response_processor'
+require 'test_helper'
+require 'ip_api_service/response_processor'
 require 'net/http/responses'
 require 'webmock/minitest'
-# require_relative 'remote_service/http_command'
 
 class IpApiResponseProcessorTest < Minitest::Test
   def test_process_xml_response

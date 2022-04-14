@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'web_service/http_command'
 require 'test_helper'
+require 'web_service/http_command'
 require 'webmock/minitest'
 
 class UriMapperTest < Minitest::Test

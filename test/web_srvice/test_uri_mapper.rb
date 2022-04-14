@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'web_service/uri_mapper'
 require 'test_helper'
+require 'web_service/uri_mapper'
 
 class UriMapperTest < Minitest::Test
   def test_uri_mapper_map_params

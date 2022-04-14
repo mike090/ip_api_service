@@ -51,9 +51,9 @@ module IpApiService
     def service_parser(content_type)
       case content_type
       when :xml
-        @xml_service_parser || parser(:xml, SERVICE_FIELDS)
+        @xml_service_parser ||= parser(:xml, SERVICE_FIELDS)
       when :json
-        @json_service_parser || parser(:json, SERVICE_FIELDS)
+        @json_service_parser ||= parser(:json, SERVICE_FIELDS)
       end
     end
   end

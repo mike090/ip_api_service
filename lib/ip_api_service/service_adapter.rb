@@ -2,7 +2,7 @@
 
 require_relative '../web_service/uri_mapper'
 require_relative '../web_service/http_command'
-require_relative 'ip_api_response_processor'
+require_relative 'response_processor'
 
 module IpApiService
   # available meta fields
@@ -33,7 +33,13 @@ module IpApiService
     proxy: { type: :boolean, description: 'Proxy, VPN or Tor exit address' },
     hosting: { type: :boolean, description: 'Hosting, colocated or data center' }
   }.freeze
-  private_constant :META_FIELDS
+
+  AVAILABLE_LANGUAGES = %i[en de es pt-BR fr ja zh-CN ru].freeze
+
+  AVAILABLE_FORMATS = %i[ip_meta_info json xml csv line php].freeze
+
+  DEFAULT_FIELDS = %i[country countryCode region regionName city zip lat lon timezone isp org as].freeze
+  private_constant :AVAILABLE_LANGUAGES, :AVAILABLE_FORMATS, :DEFAULT_FIELDS
 
   # service fields
   SERVICE_FIELDS = {
@@ -41,18 +47,14 @@ module IpApiService
     message: :string,
     query: :string
   }.freeze
-  private_constant :SERVICE_FIELDS
 
   FIELD_TYPES = META_FIELDS.transform_values do |field_scheme|
     field_scheme[:type]
   end.merge(SERVICE_FIELDS).freeze
-  private_constant :FIELD_TYPES
 
   IP_API_COMMAND_TEMPLATE = 'http://ip-api.com/{format}/{ip}{?fields}{&lang}'
-  private_constant :IP_API_COMMAND_TEMPLATE
 
   USER_AGENT = 'IpApiService/Ruby/1.0'
-  private_constant :USER_AGENT
 
   ACCEPT_MIME_TYPES = {
     json: 'application/json',
@@ -61,9 +63,10 @@ module IpApiService
     newline: 'text/plain',
     php: 'text/php'
   }.freeze
-  private_constant :ACCEPT_MIME_TYPES
+  private_constant :META_FIELDS, :AVAILABLE_LANGUAGES, :AVAILABLE_FORMATS, :DEFAULT_FIELDS, :SERVICE_FIELDS, 
+  :FIELD_TYPES, :IP_API_COMMAND_TEMPLATE, :USER_AGENT, :ACCEPT_MIME_TYPES
 
-  class IpApiAdapter
+  class ServiceAdapter
     def initialize
       mapper = WebService::UriMapper
       @command = WebService::HttpCommand.new mapper
@@ -71,11 +74,11 @@ module IpApiService
 
     def ip_meta_info(ip, fields, result_format, lang)
       target_fields = SERVICE_FIELDS.keys + fields
-      target_format = result_format == :ipMetaInfo ? :xml : result_format
+      target_format = result_format == :ip_meta_info ? :xml : result_format
       headers = prepare_headers target_format
       response = @command.execute :get, IP_API_COMMAND_TEMPLATE, ip: ip, format: target_format, fields: target_fields,
                                                                  lang: lang, headers: headers
-      return response_processor.process_response(response, target_format, fields) if result_format == :ipMetaInfo
+      return response_processor.process_response(response, target_format, fields) if result_format == :ip_meta_info
 
       response.body
     end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'ip_api_service'
 require 'test_helper'
+require 'webmock'
 
 class TestIpApiService < Minitest::Test
   def test_lookup

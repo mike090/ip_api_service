@@ -1,7 +1,6 @@
 # IpApiService
 
-### CI status:
-[![CI status](https://github.com/mike090/ip_api_service/actions/workflows/main.yml/badge.svg)](https://github.com/mike090/ip_api_service/actions)
+[![CI status](https://github.com/mike090/ip_api_service/actions/workflows/main.yml/badge.svg)](https://github.com/mike090/ip_api_service/actions/workflows/main.yml)
 
 ## Описание
 
@@ -32,7 +31,7 @@ Or install it yourself as:
 * result_format - формат желаемого результата
 * lang - язык
 
-Результатом метода, при вызове с параметром result_format: :ipMetaInfo, будет объект.
+Результатом метода, при вызове с параметром result_format: :ip_meta_info, будет объект.
 Значения запрашиваемх полей будут доступны по геттеру с именем поля
 
 ```ruby

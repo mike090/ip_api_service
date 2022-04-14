@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'web_service/http_response_processor'
 require 'test_helper'
+require 'web_service/http_response_processor'
 require 'net/http'
 
 class HttpResponseProcessorTest < Minitest::Test
