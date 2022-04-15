@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../web_service/uri_mapper'
 require_relative '../web_service/http_command'
 require_relative 'response_processor'
 
@@ -68,8 +67,7 @@ module IpApiService
 
   class ServiceAdapter
     def initialize
-      mapper = WebService::UriMapper
-      @command = WebService::HttpCommand.new mapper
+      @command = WebService::HttpCommand.new
     end
 
     def ip_meta_info(ip, fields, result_format, lang)

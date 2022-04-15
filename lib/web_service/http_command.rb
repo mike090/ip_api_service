@@ -26,10 +26,6 @@ module WebService
   private_constant :HTTP_COMMAND_METHODS
 
   class HttpCommand
-    def initialize(mapper)
-      @mapper = mapper
-    end
-
     def execute(command, template, **params) # rubocop:disable Metrics/AbcSize
       request_class = HTTP_COMMAND_METHODS[command]
       raise HttpUnknownMethodError, "Unknown Http command: #{command}" unless request_class
@@ -37,7 +33,7 @@ module WebService
       headers = (params.delete :headers) || {}
       body = params.delete :body
       body = nil unless request_class::REQUEST_HAS_BODY
-      uri = @mapper.map_template template, **params
+      uri = Addressable::Template.new(template).expand params
       request = request_class.new uri, {}
       headers.each { |header, value| request[header] = value }
       begin
