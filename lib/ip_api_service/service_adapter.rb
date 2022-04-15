@@ -70,7 +70,7 @@ module IpApiService
       @command = WebService::HttpCommand.new
     end
 
-    def ip_meta_info(ip, fields, result_format, lang)
+    def ip_info(ip, fields, result_format, lang)
       target_fields = SERVICE_FIELDS.keys + fields
       target_format = result_format == :ip_meta_info ? :xml : result_format
       headers = prepare_headers target_format

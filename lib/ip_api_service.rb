@@ -53,7 +53,7 @@ module IpApiService
     raise ArgumentError, 'Invalid ip addess' unless resolv
 
     fields = default_fields if fields.empty?
-    adapter.ip_meta_info ip, fields, result_format, lang
+    adapter.ip_info ip, fields, result_format, lang
   end
 
   private

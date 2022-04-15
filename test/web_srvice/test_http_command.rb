@@ -1,61 +1,49 @@
 # frozen_string_literal: true
 
 require 'test_helper'
+require 'net/http'
 require 'web_service/http_command'
 require 'webmock/minitest'
 
-class UriMapperTest < Minitest::Test
-  def test_http_command_method
-    url = 'http://ip-api.com'
+class HttpCommandTest < Minitest::Test
+  def test_execute_return_http_response
+    url = 'http://some-service.net'
     stub_request(:get, url)
-      .to_return(status: 200, body: 'test_response')
-    target = WebService::HttpCommand.new
-    target.execute :get, url
-    assert_requested :get, url
+      .to_return(status: 200)
+    command = WebService::HttpCommand.new
+    result = command.execute :get, url
+    assert_kind_of(Net::HTTPOK, result)
   end
 
-  def test_http_command_headers
-    url = 'http://www.example.com/action/execute'
+  def test_map_template
+    host = 'some-service.net'
+    template = "http://#{host}/{param1}{?param2}{&param3}"
+    stub_request(:get, Regexp.new("#{host}.*"))
+      .to_return(status: 200)
+    command = WebService::HttpCommand.new
+    command.execute :get, template, param1: :value1, param2: %i[item1 item2], param3: :value3,
+                                    param4: :value4
+    assert_requested(:get, "http://#{host}/value1?param2=item1,item2&param3=value3")
+  end
+
+  def test_send_headers
+    url = 'http://some-service.net'
     headers = {
       'User-Agent' => 'IpApiService/Ruby/1.0',
-      'Accept' => 'application/json'
+      'Accept' => 'application/json',
+      'Accept-Encoding' => 'utf-8'
     }
-    body = 'body'
+    body = 'some qyery'
     stub_request(:post, url)
-      .with(headers: headers, body: body)
-      .to_return(status: 201, body: 'success')
+      .to_return(status: 200, body: body)
     target = WebService::HttpCommand.new
     target.execute :post, url, headers: headers, body: body
-    assert_requested :post, url
+    assert_requested :post, url, headers: headers, body: body
   end
 
-  def test_http_command_raises_connection_error
-    WebMock.enable_net_connect!
-    url = 'http://abra-cadabra.xxx'
-    target = WebService::HttpCommand.new
-    assert_raises(WebService::ConnectionError) { target.execute :get, url }
-    WebMock.disable_net_connect!
-  end
-
-  def test_http_command_raises_unknown_method_error
-    url = 'http://abra-cadabra.xxx'
+  def test_raises_unknown_method_error
+    url = 'http://some-service.net'
     target = WebService::HttpCommand.new
     assert_raises(WebService::HttpUnknownMethodError) { target.execute :grab, url }
   end
-
-  # def test_uri_mapper_map_params
-  #   uri_template = 'http://ip-api.com/{format}/{ip}{?fields}{&lang}'
-  #   mapper = WebService::UriMapper
-  #   mapping = { format: :xml, ip: '8.8.8.8', fields: %i[field1 field2 field3], lang: :ru }
-  #   target = mapper.map_template uri_template, **mapping
-  #   assert_instance_of Addressable::URI, target
-  #   assert { target.to_s == 'http://ip-api.com/xml/8.8.8.8?fields=field1,field2,field3&lang=ru' }
-  # end
-
-  # def test_uri_mapper_skip_extra_keys
-  #   mapper = WebService::UriMapper
-  #   target = mapper.map_template 'http://localhost', format: :xml, ip: '8.8.8.8', fields: %i[field1 field2 field3],
-  #                                                    lang: :ru
-  #   assert { target.to_s == 'http://localhost' }
-  # end
 end

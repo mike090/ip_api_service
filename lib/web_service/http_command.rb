@@ -34,6 +34,7 @@ module WebService
       body = params.delete :body
       body = nil unless request_class::REQUEST_HAS_BODY
       uri = Addressable::Template.new(template).expand params
+      uri.port ||= 80
       request = request_class.new uri, {}
       headers.each { |header, value| request[header] = value }
       begin
