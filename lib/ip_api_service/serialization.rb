@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'happymapper'
+require_relative 'json_parser'
 
 module IpApiService
   module Serialization
@@ -8,8 +9,7 @@ module IpApiService
 
     class UnknownTypeError < StandardError; end
 
-    # подскажи, как обозвать
-    @type_tra_ta_ta = {
+    @type_map = {
       string: String,
       integer: Integer,
       float: Float,
@@ -18,18 +18,6 @@ module IpApiService
       datetime: DateTime,
       boolean: HappyMapper::Boolean
     }
-
-    class JsonParser
-      def initialize(fields)
-        fields = fields.keys if fields.is_a? Hash
-        @fields = fields
-      end
-
-      def parse(json_content)
-        raw = JSON.parse(json_content).transform_keys(&:to_sym).slice(*@fields)
-        Struct.new(*raw.keys).new(*raw.values_at(*raw.keys))
-      end
-    end
 
     def json_parser(fields)
       JsonParser.new fields
@@ -40,7 +28,7 @@ module IpApiService
       parser.tag root
       fields.each do |field, field_type|
         begin
-          field_type = @type_tra_ta_ta.fetch field_type
+          field_type = @type_map.fetch field_type
         rescue KeyError
           raise UnknownTypeError "Unknown field type :#{field_type}"
         end
