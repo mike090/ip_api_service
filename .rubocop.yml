@@ -1,19 +1,49 @@
+---
+
+require: rubocop-rails
+
 AllCops:
-  Exclude:
-    - "**/vendor/**/*"
-    - "**/*.gemspec"
-    - "spec/**"
   NewCops: enable
-  TargetRubyVersion: 3.0.1
-  SuggestExtensions: false
+  TargetRubyVersion: 3.0.2
+  Exclude:
+    - 'bin/**'
+    - 'db/schema.rb'
+    - 'db/migrate/**'
+    - 'vendor/**/*'
+    - 'node_modules/**/*'
+    - 'config/initializers/devise.rb'
+    - 'storage/**'
+    - 'tmp/**/*'
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Layout/LineLength:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
 
 Style/Documentation:
   Enabled: false
-Metrics/MethodLength:
+
+Metrics/BlockLength:
   Enabled: false
+
 Style/AsciiComments:
   Enabled: false
 
-# NOTE: for rspec tests
-Metrics/BlockLength:
-  IgnoredMethods: ['describe', 'context']
+Rails/InverseOf:
+  Enabled: false
+
+Lint/ShadowingOuterLocalVariable:
+  Enabled: false
+
+Lint/AmbiguousBlockAssociation:
+  Enabled: false

@@ -7,7 +7,7 @@ require 'webmock/minitest'
 require 'ip_api_service/serialization'
 
 class IpApiResponseProcessorTest < Minitest::Test
-  def test_process_xml_response # rubocop:disable Metrics/AbcSize
+  def test_process_xml_response
     processor = IpApiService::ResponseProcessor.new
     url = 'ip-api.com'
     fields = IpApiService.available_fields.sample(5)

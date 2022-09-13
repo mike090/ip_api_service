@@ -26,7 +26,7 @@ module WebService
   private_constant :HTTP_COMMAND_METHODS
 
   class HttpCommand
-    def execute(command, template, **params) # rubocop:disable Metrics/AbcSize
+    def execute(command, template, **params)
       request_class = HTTP_COMMAND_METHODS[command]
       raise HttpUnknownMethodError, "Unknown Http command: #{command}" unless request_class
 
